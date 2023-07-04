@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  // SIzing
+  max-width: 100vw;
+  min-height: 100vh;
+}
+
+body {
+  color: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+// Custom Scrollbar
+::-webkit-scrollbar {
+  // Sizing
+  width: .25rem;
+}
+
+::-webkit-scrollbar-track {
+  // Colors
+  background: #1e1e24;
+}
+
+::-webkit-scrollbar-thumb {
+  // Colors
+  background: rgba(255, 255, 255, .1);
+}
+

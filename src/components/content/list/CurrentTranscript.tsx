@@ -15,7 +15,7 @@ interface CurrentTranscriptProps {
 export default function CurrentTranscript({currentTranscript, setCurrentTranscript}: CurrentTranscriptProps) {
     return (
         <div
-            className="flex flex-col absolute top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 backdrop-blur z-50 p-2.5 text-[rgba(255,255,255,0.8)]">
+            className="flex flex-col absolute top-0 left-0 w-full bg-[rgba(255,255,255,.01)] h-full bg-opacity-50 backdrop-blur z-50 p-2.5 text-[rgba(255,255,255,0.8)]">
             <div className="flex items-center gap-2.5">
                 <BiArrowBack
                     className="text-2xl cursor-pointer hover:text-red-500 transition-colors duration-100"

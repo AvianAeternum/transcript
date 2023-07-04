@@ -56,25 +56,25 @@ export default function TranscriptMonth({date, transcripts, setCurrentTranscript
                         return (
                             <div
                                 key={transcript.fileName}
-                                className="flex items-center py-2 px-4 border-b border-[rgba(255,255,255,0.25)] hover:bg-[rgba(255,255,255,0.1)] transition-colors duration-200 cursor-pointer"
+                                className="flex items-center py-2 px-4 border-b border-[rgba(0,0,0,0.5)] hover:bg-[rgba(0,0,0,0.3)] transition-colors duration-200 cursor-pointer"
                                 onClick={handleItemClick}
                             >
                                 <div
-                                    className="w-2/6 text-left text-gray-400 text-lg"
+                                    className="w-2/6 text-left text-lg"
                                 >
                                     {
                                         convertDay(date.getDate())
                                     }
                                 </div>
                                 <div
-                                    className="w-2/6 text-left text-gray-400 text-lg"
+                                    className="w-2/6 text-left text-lg"
                                 >
                                     {
                                         convertTime(date)
                                     }
                                 </div>
                                 <div
-                                    className="w-2/6 text-left text-gray-400 text-lg"
+                                    className="w-2/6 text-left text-lg"
                                 >
                                     {
                                         convertDuration(transcript.duration)
@@ -82,7 +82,7 @@ export default function TranscriptMonth({date, transcripts, setCurrentTranscript
                                 </div>
                                 <div className="w-1/6 flex justify-end items-center">
                                     <BiTrash
-                                        className="text-gray-400 text-xl hover:text-red-500 transition-colors duration-200 cursor-pointer"
+                                        className="text-xl hover:text-red-500 transition-colors duration-200 cursor-pointer"
                                         onClick={handleDelete}
                                     />
                                 </div>

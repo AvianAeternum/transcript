@@ -9,7 +9,10 @@ export function SideBar() {
 
     return (
         <div
-            className="w-1/12 bg-gray-800 flex flex-col gap-1 py-1"
+            className="w-[12%] bg-[rgba(0,0,0,.5)] flex flex-col gap-1 py-1"
+            style={{
+                boxShadow: "inset -10px 0px 10px -10px rgba(0,0,0,0.5)",
+            }}
         >
             <div
                 className={cn({

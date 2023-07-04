@@ -135,7 +135,7 @@ export default function SettingsContent() {
                     type="text"
                     id="api-key"
                     placeholder="OpenAI API Key"
-                    className="bg-[rgba(255,255,255,0.1)] focus:bg-[rgba(255,255,255,0.2)] transition-colors duration-100 p-2 text-sm rounded-md outline-none"
+                    className="bg-[rgba(0,0,0,0.5)] focus:bg-[rgba(0,0,0,0.6)] border-2 border-transparent focus:border-[rgba(0,0,0,.5)] transition-colors duration-100 p-2 text-sm rounded-md outline-none"
                     defaultValue={data.api.apiKey ?? ''}
                     onBlur={event => handleAPIKeyChange(event.target.value)}
                 />
@@ -161,7 +161,7 @@ export default function SettingsContent() {
                     type="text"
                     id="org-key"
                     placeholder="OpenAI Organization ID"
-                    className="bg-[rgba(255,255,255,0.1)] focus:bg-[rgba(255,255,255,0.2)] transition-colors duration-100 p-2 text-sm rounded-md outline-none"
+                    className="bg-[rgba(0,0,0,0.5)] focus:bg-[rgba(0,0,0,0.6)] border-2 border-transparent focus:border-[rgba(0,0,0,.5)] transition-colors duration-100 p-2 text-sm rounded-md outline-none"
                     defaultValue={data.api.organizationKey ?? ''}
                     onBlur={event => handleOrgKeyChange(event.target.value)}
                 />
@@ -194,7 +194,7 @@ export default function SettingsContent() {
             }
             <div className="grid w-full max-w-sm items-center gap-2">
                 <button
-                    className="bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] transition-colors duration-100 p-2 text-sm rounded-md outline-none disabled:bg-[rgba(255,255,255,0.1)] disabled:cursor-not-allowed"
+                    className="bg-[rgba(0,0,0,0.5)] hover:bg-[rgba(0,0,0,0.6)] transition-colors duration-100 p-2 text-sm rounded-md outline-none disabled:bg-[rgba(0,0,0,0.6)] disabled:cursor-not-allowed"
                     disabled={loading}
                     onClick={handleCheckAPIKey}
                 >

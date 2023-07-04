@@ -25,7 +25,7 @@ export default function Home() {
 
     return (
         <main
-            className="flex flex-col flex-wrap min-h-screen bg-gray-900"
+            className="flex flex-col flex-wrap min-h-screen bg-gradient-to-t from-amber-950 to-amber-900"
         >
             <div
                 className="h-fit px-2 flex justify-between items-center bg-[rgba(0,0,0,0.2)]"

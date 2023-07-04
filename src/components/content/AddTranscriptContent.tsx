@@ -177,7 +177,7 @@ export default function AddTranscriptContent() {
                     onChange={handleUpload}
                 />
             </div>
-            <h1 className="text-xl text-[rgba(255,255,255,0.5)] text-center">
+            <h1 className="text-xl text-center">
                 Drag and drop mp3 files to transcribe and organize.
             </h1>
         </div>

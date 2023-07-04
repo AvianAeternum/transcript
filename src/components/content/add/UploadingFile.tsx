@@ -18,7 +18,7 @@ export default function UploadingFile({loadingStatus, setLoadingStatus}: Uploadi
                 loadingStatus.files.map(file => (
                     <div
                         key={file.file.name}
-                        className="flex justify-between gap-5 w-full text-md text-[rgba(255,255,255,0.5)]  bg-[rgba(255,255,255,0.1)] p-2 rounded-[8px]"
+                        className="flex justify-between gap-5 w-full text-md bg-[rgba(0,0,0,0.3)] p-2 rounded-[8px]"
                     >
                         <div className="flex flex-col">
                                 <span>
@@ -76,7 +76,7 @@ export default function UploadingFile({loadingStatus, setLoadingStatus}: Uploadi
             </div>
             <div className="mt-5 mx-auto">
                 <button
-                    className="px-5 py-2 bg-[rgba(255,0,0,0.1)] rounded-lg hover:bg-[rgba(255,0,0,0.2)] transition-colors duration-100"
+                    className="px-5 py-2 bg-red-600 rounded-lg hover:bg-red-700 transition-colors duration-100"
                     onClick={() => setLoadingStatus(null)}
                 >
                     Cancel

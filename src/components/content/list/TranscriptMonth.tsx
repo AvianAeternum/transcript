@@ -3,7 +3,6 @@ import {AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui
 import {Dispatch, SetStateAction} from "react";
 import {BiTrash} from "react-icons/bi";
 import {convertDay, convertDuration, convertTime} from "@/utils/time";
-import {removeFile} from "@tauri-apps/api/fs";
 import {useContentHook} from "@/hook/ContentHook";
 
 interface TranscriptDateListProps {
@@ -41,11 +40,13 @@ export default function TranscriptMonth({date, transcripts, setCurrentTranscript
                             setCurrentTranscript(transcript);
                         }
 
-                        function handleDelete(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
+                        async function handleDelete(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
+                            const {removeFile} = (await import('@tauri-apps/api/fs'));
+
                             e.preventDefault();
                             e.stopPropagation();
 
-                            removeFile(transcript.filePath);
+                            await removeFile(transcript.filePath);
 
                             setData(prev => ({
                                 ...prev,

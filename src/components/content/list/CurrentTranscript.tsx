@@ -1,8 +1,8 @@
-import {Dispatch, SetStateAction} from "react";
+"use client";
+import {Dispatch, SetStateAction, useEffect, useState} from "react";
 import {FileTranscript} from "@/utils/types";
 import {BiArrowBack} from "react-icons/bi";
 import {AudioPlayer} from "@/components/common/AudioPlayer";
-import {convertFileSrc} from "@tauri-apps/api/tauri";
 
 interface CurrentTranscriptProps {
 
@@ -13,6 +13,26 @@ interface CurrentTranscriptProps {
 }
 
 export default function CurrentTranscript({currentTranscript, setCurrentTranscript}: CurrentTranscriptProps) {
+    const [audioSrc, setAudioSrc] = useState<string>('');
+
+    /**
+     * Initialize the audio source
+     */
+    async function initAudioSrc() {
+        if (!currentTranscript) {
+            return;
+        }
+
+        const {convertFileSrc} = (await import("@tauri-apps/api/tauri"));
+        const src = convertFileSrc(currentTranscript.filePath);
+
+        setAudioSrc(src);
+    }
+
+    useEffect(() => {
+        initAudioSrc().catch(console.error);
+    }, []);
+
     return (
         <div
             className="flex flex-col absolute top-0 left-0 w-full bg-[rgba(255,255,255,.01)] h-full bg-opacity-50 backdrop-blur z-50 p-2.5 text-[rgba(255,255,255,0.8)]">
@@ -42,7 +62,7 @@ export default function CurrentTranscript({currentTranscript, setCurrentTranscri
             </div>
             <div className="pt-5">
                 <AudioPlayer
-                    src={convertFileSrc(currentTranscript.filePath)}
+                    src={audioSrc}
                 />
             </div>
             <div className="flex flex-1 overflow-y-auto bg-[rgba(0,0,0,0.5)] mt-2.5 p-2.5">

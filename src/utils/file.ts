@@ -1,5 +1,4 @@
-import {appLocalDataDir, resolve} from "@tauri-apps/api/path";
-import {createDir, exists, writeBinaryFile} from "@tauri-apps/api/fs";
+
 
 /**
  * Convert the file name to a date
@@ -38,6 +37,8 @@ export function fileNameToDate(fileName: string): Date | undefined {
  * @param date the date
  */
 export async function saveFile(file: File, date: Date): Promise<string | undefined> {
+    const {appLocalDataDir, resolve} = (await import ("@tauri-apps/api/path"));
+    const {createDir, exists, writeBinaryFile} = (await import("@tauri-apps/api/fs"));
     const folderName = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
     const fileName = `${date.getFullYear()}${date.getMonth()}${date.getDate()}_${date.getHours()}${date.getMinutes()}.mp3`;
     const folderPath = await resolve(await appLocalDataDir(), folderName);

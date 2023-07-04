@@ -1,7 +1,6 @@
 "use client";
 
 import {HiXMark} from "react-icons/hi2";
-import {appWindow} from "@tauri-apps/api/window";
 import {SideBar} from "@/components/SideBar";
 import {useContentHook} from "@/hook/ContentHook";
 import {ContentType} from "@/utils/types";
@@ -15,7 +14,8 @@ export default function Home() {
     /**
      * Close the app window
      */
-    function handleCloseClick() {
+    async function handleCloseClick() {
+        const appWindow = (await import('@tauri-apps/api/window')).appWindow;
         if (!appWindow) {
             return;
         }

@@ -39,7 +39,7 @@ export default function TranscriptsContent() {
     return (
         <div className="flex flex-col gap-5">
             {
-                transcripts.sort((a, b) => a.year - b.year).map(year => (
+                transcripts.sort((a, b) => b.year - a.year).map(year => (
                     <div key={year.year}>
                         <div className="flex items-center justify-between py-2">
                             <h1 className="text-2xl">
@@ -51,7 +51,7 @@ export default function TranscriptsContent() {
                         <Accordion type="multiple" className="flex flex-col gap-5">
                             {
                                 year.transcripts
-                                    .sort((a, b) => a.month - b.month)
+                                    .sort((a, b) => b.month - a.month)
                                     .map(month => (
                                         <TranscriptMonth
                                             key={month.month}

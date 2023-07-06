@@ -1,10 +1,12 @@
 "use client";
 
 import {createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState} from "react";
-import {ContentType, Data} from "@/utils/types";
+import {ContentType, Data, THEME_PRESETS} from "@/utils/types";
 
 const DEFAULT_DATA: Data = {
     api: {},
+    theme: THEME_PRESETS[0],
+    savedThemes: THEME_PRESETS,
     transcripts: []
 }
 
@@ -29,7 +31,7 @@ interface ContentHookContext {
 const ContentHookContext = createContext<ContentHookContext>(null as unknown as ContentHookContext);
 
 export function ContentHookProvider({children}: ContentHookProviderProps) {
-    const [contentType, setContentType] = useState<ContentType>(ContentType.ADD_TRANSCRIPT);
+    const [contentType, setContentType] = useState<ContentType>(ContentType.UPLOAD);
     const [data, setData] = useState<Data>(DEFAULT_DATA);
 
     function saveData(data: Data) {
@@ -46,9 +48,16 @@ export function ContentHookProvider({children}: ContentHookProviderProps) {
         // Get the data from localstorage
         const data = JSON.parse(localStorage.getItem("data") as string) as Data;
 
+
+        // Ensure that the data has the correct keys
+        const newData: Data = {
+            ...DEFAULT_DATA,
+            ...data
+        };
+
         // Set the data
-        setData(data);
-        console.log("Loaded data from localstorage");
+        setData(newData);
+        console.log("Loaded data from localstorage")
     }
 
     useEffect(() => {

@@ -4,7 +4,6 @@
  * @param day The day of the month
  */
 export function convertDay(day: number) {
-    console.log(day)
     const suffixes = ['th', 'st', 'nd', 'rd'];
     const specialCases = [11, 12, 13]; // 11th, 12th, 13th are exceptions
 

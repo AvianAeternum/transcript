@@ -31,22 +31,42 @@ export default function TranscriptMonth({date, transcripts, setCurrentTranscript
                     .map(transcript => {
                         const date = new Date(transcript.date);
 
+                        /**
+                         * Handles the click event on the item
+                         *
+                         * @param e The click event
+                         */
                         function handleItemClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-                            // Ensure that is isn't clicking on the trash icon
-                            if ((e.target as HTMLDivElement).tagName === "svg") {
+                            // Ensure that the click event is not triggered when clicking on the delete button
+                            if ((e.target as HTMLElement).id === 'delete') {
                                 return;
                             }
 
-                            setCurrentTranscript(transcript);
-                        }
-
-                        async function handleDelete(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
-                            const {removeFile} = (await import('@tauri-apps/api/fs'));
+                            // Ensure the click event is not triggered when clicking on the delete icon
+                            if ((e.target as HTMLElement).tagName === 'svg') {
+                                return;
+                            }
 
                             e.preventDefault();
                             e.stopPropagation();
 
-                            await removeFile(transcript.filePath);
+                            setCurrentTranscript(transcript);
+                        }
+
+                        /**
+                         * Handles the delete event on the item.
+                         *
+                         * @param e The click event
+                         */
+                        async function handleDelete(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
+                            const {removeFile, exists} = (await import('@tauri-apps/api/fs'));
+
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            if (await exists(transcript.filePath)) {
+                                await removeFile(transcript.filePath);
+                            }
 
                             setData(prev => ({
                                 ...prev,
@@ -81,7 +101,7 @@ export default function TranscriptMonth({date, transcripts, setCurrentTranscript
                                         convertDuration(transcript.duration)
                                     }
                                 </div>
-                                <div className="w-1/6 flex justify-end items-center">
+                                <div className="w-1/6 flex justify-end items-center z-50" id="delete">
                                     <BiTrash
                                         className="text-xl hover:text-red-500 transition-colors duration-200 cursor-pointer"
                                         onClick={handleDelete}

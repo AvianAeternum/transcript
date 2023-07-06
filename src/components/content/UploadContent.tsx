@@ -6,9 +6,10 @@ import {BiPlus} from "react-icons/bi";
 import UploadingFile from "@/components/content/add/UploadingFile";
 
 
-export default function AddTranscriptContent() {
+export default function UploadContent() {
     const {data, setData} = useContentHook();
     const [loadingStatus, setLoadingStatus] = React.useState<LoadingStatus | null>(null);
+    const inputRef = React.useRef<HTMLInputElement>(null);
 
     function updateFileStatusError(name: string | undefined, error: string) {
         if (!name) {
@@ -79,6 +80,18 @@ export default function AddTranscriptContent() {
         });
     }
 
+    function addConsoleMessage(message: string) {
+        setLoadingStatus(currentLoadingStatus => {
+            if (!currentLoadingStatus) {
+                return null;
+            }
+
+            currentLoadingStatus.consoleMessages.push(message);
+
+            return currentLoadingStatus;
+        });
+    }
+
 
     /**
      * Handle the file upload
@@ -86,14 +99,21 @@ export default function AddTranscriptContent() {
      * @param event the event
      */
     async function handleUpload(event: React.ChangeEvent<HTMLInputElement>) {
-        const target = event.target;
-        const files = target.files;
-        if (!files) {
+        if (loadingStatus) {
+            console.log(`Already loading`);
             return;
         }
 
-        const loadingStatus: LoadingStatus = {
+        const target = event.target;
+        const files = target.files;
+        if (!files) {
+            console.log(`No files found in the event`)
+            return;
+        }
+
+        const newLoadingStatus: LoadingStatus = {
             progress: 0,
+            consoleMessages: [],
             files: []
         };
 
@@ -104,19 +124,20 @@ export default function AddTranscriptContent() {
                 continue;
             }
 
-            loadingStatus.files.push({
+            newLoadingStatus.files.push({
                 file: file,
                 status: 'queued'
             });
+            newLoadingStatus.consoleMessages.push(`Queued ${file.name}`);
         }
 
         // Set the loading status.
-        setLoadingStatus(loadingStatus);
+        setLoadingStatus(newLoadingStatus);
 
         const toAdd: FileTranscript[] = [];
-        while (loadingStatus) {
+        while (newLoadingStatus) {
             // Find the first file that is queued
-            const file = loadingStatus?.files.find(file => file.status === 'queued');
+            const file = newLoadingStatus?.files.find(file => file.status === 'queued');
             if (!file) {
                 break;
             }
@@ -124,15 +145,13 @@ export default function AddTranscriptContent() {
             updateLoadingStatus(file.file.name, 'transcribing');
 
             // Load the file
-            const transcript = await loadFile(file.file, data, updateFileStatusError, updateLoadingStatus);
+            const transcript = await loadFile(file.file, data, updateFileStatusError, addConsoleMessage, updateLoadingStatus);
             if (transcript) {
                 toAdd.push(transcript);
             }
 
             updateLoadingStatus(file.file.name, 'done');
         }
-
-        console.log(`Adding ${toAdd.length} transcripts to the database`);
 
         // Add the transcripts to the database
         setData(currentData => {
@@ -144,11 +163,6 @@ export default function AddTranscriptContent() {
 
         // Clear the file input value so we can upload the same file again
         target.value = '';
-
-        // After 5 seconds we remove the loading status
-        setTimeout(() => {
-            setLoadingStatus(null);
-        }, 5000);
     }
 
     if (loadingStatus) {
@@ -163,23 +177,25 @@ export default function AddTranscriptContent() {
     return (
         <div className="h-full w-full flex flex-col justify-center items-center gap-5">
             <div
-                className="flex justify-center items-center relative w-96 aspect-[3/2] bg-[rgba(255,255,255,0.1)] rounded-lg hover:bg-[rgba(255,255,255,0.2)] transition-colors duration-100 cursor-pointer"
-
+                className="relative bg-[rgba(255,255,255,0.1)] flex justify-center items-center hover:bg-[rgba(255,255,255,0.2)] transition-colors duration-200 ease-in-out rounded-xl cursor-pointer"
             >
-                <BiPlus
-                    className="absolute text-[rgba(255,255,255,0.5)] text-3xl"
-                />
+                <div className="flex p-2 cursor-none">
+                    <BiPlus
+                        className="text-[rgba(255,255,255,0.5)] text-3xl"
+                    />
+                </div>
+                <div className="px-4 border-l border-white h-full flex items-center cursor-none">
+                    <p className="text-[rgba(255,255,255,0.5)] text-sm cursor-none">Upload a file</p>
+                </div>
                 <input
                     type={"file"}
                     multiple={true}
                     accept={"audio/mp3"}
-                    className="absolute w-full h-full opacity-0 cursor-pointer"
+                    className="absolute w-full h-full opacity-0 cursor-pointer z-10"
                     onChange={handleUpload}
+                    ref={inputRef}
                 />
             </div>
-            <h1 className="text-xl text-center">
-                Drag and drop mp3 files to transcribe and organize.
-            </h1>
         </div>
     )
 }

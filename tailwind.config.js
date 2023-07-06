@@ -16,41 +16,6 @@ module.exports = {
             },
         },
         extend: {
-            colors: {
-                border: "hsl(var(--border))",
-                input: "hsl(var(--input))",
-                ring: "hsl(var(--ring))",
-                background: "hsl(var(--background))",
-                foreground: "hsl(var(--foreground))",
-                primary: {
-                    DEFAULT: "hsl(var(--primary))",
-                    foreground: "hsl(var(--primary-foreground))",
-                },
-                secondary: {
-                    DEFAULT: "hsl(var(--secondary))",
-                    foreground: "hsl(var(--secondary-foreground))",
-                },
-                destructive: {
-                    DEFAULT: "hsl(var(--destructive))",
-                    foreground: "hsl(var(--destructive-foreground))",
-                },
-                muted: {
-                    DEFAULT: "hsl(var(--muted))",
-                    foreground: "hsl(var(--muted-foreground))",
-                },
-                accent: {
-                    DEFAULT: "hsl(var(--accent))",
-                    foreground: "hsl(var(--accent-foreground))",
-                },
-                popover: {
-                    DEFAULT: "hsl(var(--popover))",
-                    foreground: "hsl(var(--popover-foreground))",
-                },
-                card: {
-                    DEFAULT: "hsl(var(--card))",
-                    foreground: "hsl(var(--card-foreground))",
-                },
-            },
             borderRadius: {
                 lg: "var(--radius)",
                 md: "calc(var(--radius) - 2px)",
@@ -70,6 +35,15 @@ module.exports = {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
             },
+            // backgroundImage: {
+            //     redTheme: "linear-gradient(55deg, #371923 0%, #5C343D 100%)",
+            //     blueTheme: "linear-gradient(55deg, #121B3F 0%, #1F2C6D 100%)",
+            //     brownTheme: "linear-gradient(55deg, #2C1C10 0%, #5D3E2A 100%)",
+            //     purpleTheme: "linear-gradient(55deg, #380723 0%, #5e1449 100%)",
+            //     greenTheme: "linear-gradient(55deg, #0F2A1B 0%, #1F4A2E 100%)",
+            //     yellowTheme: "linear-gradient(55deg, #3A2A0C 0%, #5D4A1E 100%)",
+            //     orangeTheme: "linear-gradient(55deg, #3A1A0C 0%, #5D2A1E 100%)",
+            // }
         },
     },
     plugins: [require("tailwindcss-animate")],

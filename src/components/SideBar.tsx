@@ -1,50 +1,68 @@
 import {cn} from "@/lib/utils";
-import {BiFile, BiPlus} from "react-icons/bi";
-import {BsGear} from "react-icons/bs";
 import {useContentHook} from "@/hook/ContentHook";
 import {ContentType} from "@/utils/types";
+import {CgFileDocument, CgSoftwareUpload} from "react-icons/cg";
+import {TbSettings2} from "react-icons/tb";
 
 export function SideBar() {
     const {contentType, setContentType} = useContentHook();
 
     return (
         <div
-            className="w-[12%] bg-[rgba(0,0,0,.5)] flex flex-col gap-1 py-1"
+            className="w-[12%] bg-[rgba(0,0,0,.2)] flex flex-col py-1"
             style={{
                 boxShadow: "inset -10px 0px 10px -10px rgba(0,0,0,0.5)",
             }}
         >
             <div
-                className={cn({
-                    "flex justify-center items-center cursor-pointer mx-1 hover:bg-[rgba(255,255,255,0.1)] transition-colors duration-100 rounded-2xl aspect-[1/1]": true,
-                    "bg-[rgba(255,255,255,0.1)]": contentType === ContentType.ADD_TRANSCRIPT,
-                })}
-                onClick={() => setContentType(ContentType.ADD_TRANSCRIPT)}
+                className="relative flex items-center justify-center cursor-pointer p-4 group"
+                onClick={() => setContentType(ContentType.UPLOAD)}
             >
-                <BiPlus
-                    className="text-2xl"
+                <div
+                    className={cn({
+                        "absolute left-0 h-3/4 w-1 bg-white rounded-r-md transition-transform duration-500 scale-y-0 group-hover:scale-y-50 rounded-2xl": true,
+                        "scale-y-100 group-hover:scale-y-100": contentType === ContentType.UPLOAD,
+                    })}
+                />
+                <CgSoftwareUpload
+                    className={cn({
+                        "text-[rgba(255,255,255,.5)] group-hover:text-white text-2xl transition-colors duration-500": true,
+                        "text-white": contentType === ContentType.UPLOAD,
+                    })}
                 />
             </div>
             <div
-                className={cn({
-                    "flex justify-center items-center cursor-pointer mx-1 hover:bg-[rgba(255,255,255,0.1)] transition-colors duration-100 rounded-2xl aspect-[1/1]": true,
-                    "bg-[rgba(255,255,255,0.1)]": contentType === ContentType.TRANSCRIPTS,
-                })}
+                className="relative flex items-center justify-center cursor-pointer p-4 group"
                 onClick={() => setContentType(ContentType.TRANSCRIPTS)}
             >
-                <BiFile
-                    className="text-2xl"
+                <div
+                    className={cn({
+                        "absolute left-0 h-3/4 w-1 bg-white rounded-r-md transition-transform duration-500 scale-y-0 group-hover:scale-y-50 rounded-2xl": true,
+                        "scale-y-100 group-hover:scale-y-100": contentType === ContentType.TRANSCRIPTS,
+                    })}
+                />
+                <CgFileDocument
+                    className={cn({
+                        "text-[rgba(255,255,255,.5)] group-hover:text-white text-2xl transition-colors duration-500": true,
+                        "text-white": contentType === ContentType.TRANSCRIPTS,
+                    })}
                 />
             </div>
             <div
-                className={cn({
-                    "flex justify-center items-center cursor-pointer mx-1 hover:bg-[rgba(255,255,255,0.1)] transition-colors duration-100 rounded-2xl aspect-[1/1]": true,
-                    "bg-[rgba(255,255,255,0.1)]": contentType === ContentType.SETTINGS,
-                })}
+                className="relative flex items-center justify-center cursor-pointer p-4 group mt-auto"
                 onClick={() => setContentType(ContentType.SETTINGS)}
             >
-                <BsGear
-                    className="text-2xl"
+                <div
+                    className={cn({
+                        "absolute left-0 h-3/4 w-1 bg-white rounded-r-md transition-transform duration-500 scale-y-0 group-hover:scale-y-50 rounded-2xl": true,
+                        "scale-y-100 group-hover:scale-y-100": contentType === ContentType.SETTINGS,
+                    })}
+                />
+                <TbSettings2
+                    className={cn({
+                        "text-[rgba(255,255,255,.5)] group-hover:text-white text-2xl transition-colors duration-500": true,
+                        "text-white": contentType === ContentType.SETTINGS,
+                    })}
                 />
             </div>
         </div>

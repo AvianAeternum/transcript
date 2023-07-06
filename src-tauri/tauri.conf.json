@@ -75,10 +75,10 @@
       {
         "fullscreen": false,
         "resizable": false,
-        "title": "transcript",
+        "title": "Birb Transcript",
         "height": 800,
         "width": 650,
-        "decorations": false
+        "fileDropEnabled": true
       }
     ]
   }

@@ -1,58 +1,38 @@
 "use client";
 
-import {HiXMark} from "react-icons/hi2";
 import {SideBar} from "@/components/SideBar";
 import {useContentHook} from "@/hook/ContentHook";
-import {ContentType} from "@/utils/types";
-import AddTranscriptContent from "@/components/content/AddTranscriptContent";
+import {ContentType, Theme, THEME_PRESETS} from "@/utils/types";
+import UploadContent from "@/components/content/UploadContent";
 import SettingsContent from "@/components/content/settingsContent";
 import TranscriptsContent from "@/components/content/TranscriptsContent";
+import {useEffect, useState} from "react";
 
 export default function Home() {
-    const {contentType} = useContentHook();
+    const {contentType, data} = useContentHook();
+    const [theme, setTheme] = useState<Theme>(data.theme ?? THEME_PRESETS[0]);
 
-    /**
-     * Close the app window
-     */
-    async function handleCloseClick() {
-        const appWindow = (await import('@tauri-apps/api/window')).appWindow;
-        if (!appWindow) {
-            return;
-        }
-
-        appWindow.close().catch(console.error);
-    }
+    useEffect(() => {
+        setTheme(data.theme ?? THEME_PRESETS[0]);
+    }, [data]);
 
     return (
         <main
-            className="flex flex-col flex-wrap min-h-screen bg-gradient-to-t from-amber-950 to-amber-900"
+            className={`flex flex-col flex-wrap min-h-screen`}
+            style={{
+                background: `linear-gradient(${theme.bgRotation}deg, ${theme.bgBeginColor}, ${theme.bgEndColor})`
+            }}
         >
-            <div
-                className="h-fit px-2 flex justify-between items-center bg-[rgba(0,0,0,0.2)]"
-                data-tauri-drag-region
-            >
-                <div>
-                    Transcript
-                </div>
-                <div
-                    className="flex justify-end items-center py-2 text-white hover:text-red-500 transition-colors duration-100"
-                    onClick={handleCloseClick}
-                >
-                    <HiXMark
-                        className="text-xl cursor-pointer"
-                    />
-                </div>
-            </div>
             <div
                 className="flex flex-1"
             >
                 <SideBar/>
                 <div
-                    className="flex-1 overflow-y-auto p-2.5 relative max-h-[calc(100vh-3rem)]"
+                    className="flex-1 overflow-y-auto p-2.5 relative bg-[rgba(255,255,255,.05)]"
                 >
                     {
-                        contentType === ContentType.ADD_TRANSCRIPT && (
-                            <AddTranscriptContent/>
+                        contentType === ContentType.UPLOAD && (
+                            <UploadContent/>
                         )
                     }
                     {

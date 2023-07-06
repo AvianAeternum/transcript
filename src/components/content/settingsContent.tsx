@@ -1,6 +1,6 @@
 import {useContentHook} from "@/hook/ContentHook";
 import {useState} from "react";
-import {FormMessage} from "@/utils/types";
+import {FormMessage, Theme} from "@/utils/types";
 import {cn} from "@/lib/utils";
 import {CgSpinner} from "react-icons/cg";
 
@@ -57,11 +57,11 @@ export default function SettingsContent() {
         setFormMessage(null);
 
         // If api key is not set, return
-        if (!data.api.apiKey || !data.api.organizationKey) {
+        if (!data.api.apiKey) {
             setFormMessage({
                 type: 'error',
                 field: 'global',
-                message: 'API & Organization Key are required!'
+                message: 'API Organization Key are required!'
             });
             return;
         }
@@ -75,32 +75,21 @@ export default function SettingsContent() {
             return;
         }
 
-        if (data.api.organizationKey.trim() === '') {
-            setFormMessage({
-                type: 'error',
-                field: 'org-key',
-                message: 'Organization Key is required!'
-            });
-            return;
-        }
-
         try {
-            const headers = {
-                Authorization: `Bearer ${data.api.apiKey}`,
-                "OpenAI-Organization": data.api.organizationKey
-            }
-
             // Set loading to true
             setLoading(true);
 
             // Get the OpenAI models
             fetch("https://api.openai.com/v1/models", {
-                headers: headers as unknown as HeadersInit
+                headers: {
+                    Authorization: `Bearer ${data.api.apiKey}`,
+                    ...(data.api.organizationKey && {"OpenAI-Organization": data.api.organizationKey})
+                } as any
             }).then(response => response.json()).then(data => {
                 setFormMessage({
                     type: 'success',
                     field: 'global',
-                    message: 'API & Organization Key are valid!'
+                    message: 'API Key is valid!'
                 })
                 verifyAPIKey();
                 setLoading(false);
@@ -109,7 +98,7 @@ export default function SettingsContent() {
                 setFormMessage({
                     type: 'error',
                     field: 'global',
-                    message: `API & Organization Key are invalid! ${error.message}`
+                    message: `API Key is invalid! ${error.message}`
                 });
                 setLoading(false);
             });
@@ -118,11 +107,18 @@ export default function SettingsContent() {
             setFormMessage({
                 type: 'error',
                 field: 'global',
-                message: `API & Organization Key are invalid! ${ex.message}`
+                message: `API Key is invalid! ${ex.message}`
             });
             setLoading(false);
         }
 
+    }
+
+    function handleThemeChange(theme: Theme) {
+        setData(currentData => ({
+            ...currentData,
+            theme
+        }));
     }
 
     return (
@@ -135,7 +131,7 @@ export default function SettingsContent() {
                     type="text"
                     id="api-key"
                     placeholder="OpenAI API Key"
-                    className="bg-[rgba(0,0,0,0.5)] focus:bg-[rgba(0,0,0,0.6)] border-2 border-transparent focus:border-[rgba(0,0,0,.5)] transition-colors duration-100 p-2 text-sm rounded-md outline-none"
+                    className="bg-[rgba(0,0,0,0.5)] focus:bg-[rgba(0,0,0,0.6)] border-2 border-transparent focus:border-[rgba(0,0,0,.5)] transition-colors duration-100 p-2 text-sm rounded-xl outline-none"
                     defaultValue={data.api.apiKey ?? ''}
                     onBlur={event => handleAPIKeyChange(event.target.value)}
                 />
@@ -161,7 +157,7 @@ export default function SettingsContent() {
                     type="text"
                     id="org-key"
                     placeholder="OpenAI Organization ID"
-                    className="bg-[rgba(0,0,0,0.5)] focus:bg-[rgba(0,0,0,0.6)] border-2 border-transparent focus:border-[rgba(0,0,0,.5)] transition-colors duration-100 p-2 text-sm rounded-md outline-none"
+                    className="bg-[rgba(0,0,0,0.5)] focus:bg-[rgba(0,0,0,0.6)] border-2 border-transparent focus:border-[rgba(0,0,0,.5)] transition-colors duration-100 p-2 text-sm outline-none rounded-xl"
                     defaultValue={data.api.organizationKey ?? ''}
                     onBlur={event => handleOrgKeyChange(event.target.value)}
                 />
@@ -194,7 +190,7 @@ export default function SettingsContent() {
             }
             <div className="grid w-full max-w-sm items-center gap-2">
                 <button
-                    className="bg-[rgba(0,0,0,0.5)] hover:bg-[rgba(0,0,0,0.6)] transition-colors duration-100 p-2 text-sm rounded-md outline-none disabled:bg-[rgba(0,0,0,0.6)] disabled:cursor-not-allowed"
+                    className="bg-[rgba(0,0,0,0.5)] hover:bg-[rgba(0,0,0,0.6)] transition-colors duration-100 p-2 text-sm outline-none disabled:bg-[rgba(0,0,0,0.6)] disabled:cursor-not-allowed rounded-xl"
                     disabled={loading}
                     onClick={handleCheckAPIKey}
                 >
@@ -205,6 +201,28 @@ export default function SettingsContent() {
                     }
                     Check API Credentials
                 </button>
+            </div>
+            <div className="grid w-full">
+                <label htmlFor="theme" className="mt-5 mb-3">
+                    Preset Themes
+                </label>
+                <div className="flex flex-wrap flex-row gap-2">
+                    {
+                        data.savedThemes.map((theme, index) => (
+                            <div
+                                key={index}
+                                className={cn({
+                                    "w-10 h-10 cursor-pointer hover:border-2 border-transparent hover:border-white transition-colors duration-100": true,
+                                    "border-2 border-white": theme.name === data.theme.name
+                                })}
+                                onClick={() => handleThemeChange(theme)}
+                                style={{
+                                    background: `linear-gradient(${theme.bgRotation}deg, ${theme.bgBeginColor}, ${theme.bgEndColor})`
+                                }}
+                            />
+                        ))
+                    }
+                </div>
             </div>
         </div>
     )

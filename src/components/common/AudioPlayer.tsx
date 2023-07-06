@@ -86,7 +86,7 @@ export function AudioPlayer({src}: AudioPlayerProps) {
 
 
     return (
-        <div className="flex items-center gap-2.5 bg-[rgba(0,0,0,0.5)] p-2.5">
+        <div className="flex items-center gap-2.5 bg-[rgba(0,0,0,0.5)] p-2.5 rounded-2xl">
             <div
                 className="text-7xl text-white p-1 cursor-pointer hover:text-[rgba(255,255,255,0.75)] transition-colors duration-100"
                 onClick={togglePlay}

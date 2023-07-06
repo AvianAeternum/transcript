@@ -1,5 +1,5 @@
 import {useContentHook} from "@/hook/ContentHook";
-import {FileTranscript} from "@/utils/types";
+import {ContentType, FileTranscript} from "@/utils/types";
 import {Accordion} from "@/components/ui/accordion";
 import TranscriptMonth from "@/components/content/list/TranscriptMonth";
 import {useState} from "react";
@@ -15,8 +15,26 @@ interface TranscriptYear {
 
 export default function TranscriptsContent() {
     const [currentTranscript, setCurrentTranscript] = useState<FileTranscript | null>(null);
-    const {data} = useContentHook();
+    const {data, setContentType} = useContentHook();
     const transcripts = splitTranscriptsByYearAndMonth(data.transcripts);
+    if (!transcripts || !transcripts.length) {
+        return (
+            <div className="flex flex-col h-full items-center justify-center">
+                <h1 className="text-2xl">
+                    No transcripts found
+                </h1>
+                <span className="text-[rgba(255,255,255,0.5)]">
+                    Please add transcripts to the{" "}
+                    <button
+                        className="text-white hover:text-[#00A3FF] transition-colors duration-500"
+                        onClick={() => setContentType(ContentType.UPLOAD)}
+                    >
+                    upload
+                </button> tab.
+                </span>
+            </div>
+        )
+    }
 
     return (
         <div className="flex flex-col gap-5">

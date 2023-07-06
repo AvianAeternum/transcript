@@ -45,7 +45,14 @@ export default function CurrentTranscript({currentTranscript, setCurrentTranscri
                     {
                         currentTranscript.fileName.replace('.mp3', '')
                     } ({
-                    `${currentTranscript.fileName.substring(0, 2)}/${currentTranscript.fileName.substring(2, 4)}/20${currentTranscript.fileName.substring(4, 6)}`
+                    new Date(currentTranscript.date).toLocaleDateString('en-US', {
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric',
+                        hourCycle: 'h12',
+                        hour: 'numeric',
+                        minute: 'numeric'
+                    })
                 })
                 </h1>
             </div>
@@ -65,7 +72,7 @@ export default function CurrentTranscript({currentTranscript, setCurrentTranscri
                     src={audioSrc}
                 />
             </div>
-            <div className="flex flex-1 overflow-y-auto bg-[rgba(0,0,0,0.5)] mt-2.5 p-2.5">
+            <div className="flex flex-1 overflow-y-auto bg-[rgba(0,0,0,0.5)] mt-2.5 p-2.5 rounded-2xl">
                 <p
                     dangerouslySetInnerHTML={{
                         __html: currentTranscript.transcript.replace(/\n/g, '<br>')

@@ -27,7 +27,7 @@ export default function TranscriptMonth({date, transcripts, setCurrentTranscript
             </AccordionTrigger>
             <AccordionContent className="px-2">
                 {transcripts
-                    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+                    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                     .map(transcript => {
                         const date = new Date(transcript.date);
 
@@ -42,8 +42,8 @@ export default function TranscriptMonth({date, transcripts, setCurrentTranscript
                                 return;
                             }
 
-                            // Ensure the click event is not triggered when clicking on the delete icon
-                            if ((e.target as HTMLElement).tagName === 'svg') {
+                            // Check if parent has delete id (if so, it is the delete button)
+                            if ((e.target as HTMLElement).parentElement?.id === 'delete') {
                                 return;
                             }
 
